@@ -13,6 +13,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DataReader {
+    private static DataReader instance;
+
+    private DataReader() {}
+
+    public static DataReader getInstance() {
+        if (instance == null) {
+            instance = new DataReader();
+        }
+        return instance;
+    }
+
     public List<String> readFile(String fileName) throws ProjectException {
         List<String> dataList = new ArrayList<>();
         Path path = Paths.get(fileName);

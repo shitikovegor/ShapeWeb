@@ -1,11 +1,11 @@
-package com.shitikov.shape.service.impl;
+package com.shitikov.shape.action.impl;
 
 import com.shitikov.shape.entity.Point;
 import com.shitikov.shape.entity.Quadrangle;
 import com.shitikov.shape.entity.QuadrangleType;
-import com.shitikov.shape.service.ShapeService;
+import com.shitikov.shape.action.ShapeAction;
 
-public class QuadrangleService implements ShapeService<Quadrangle> {
+public class QuadrangleAction implements ShapeAction<Quadrangle> {
 
     @Override
     public double calculatePerimeter(Quadrangle quadrangle) {
@@ -49,10 +49,10 @@ public class QuadrangleService implements ShapeService<Quadrangle> {
     public QuadrangleType defineQuadrangleType(Quadrangle quadrangle) {
         QuadrangleType result = QuadrangleType.ARBITRARY;
 
-        if (isRhombus(quadrangle)) {
-            result = QuadrangleType.RHOMBUS;
-        } else if (isSquare(quadrangle)) {
+        if (isSquare(quadrangle)) {
             result = QuadrangleType.SQUARE;
+        } else if (isRhombus(quadrangle)) {
+            result = QuadrangleType.RHOMBUS;
         } else if (isTrapezoid(quadrangle)) {
             result = QuadrangleType.TRAPEZOID;
         }

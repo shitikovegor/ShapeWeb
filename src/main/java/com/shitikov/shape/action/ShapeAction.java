@@ -1,8 +1,8 @@
-package com.shitikov.shape.service;
+package com.shitikov.shape.action;
 
 import com.shitikov.shape.entity.Shape;
 
-public interface ShapeService<T extends Shape> {
+public interface ShapeAction<T extends Shape> {
     double calculatePerimeter(T shape);
     double calculateSquare(T shape);
 }

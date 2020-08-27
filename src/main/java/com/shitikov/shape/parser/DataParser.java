@@ -12,12 +12,24 @@ import java.util.regex.Pattern;
 public class DataParser {
 
     private static final String POINT_DELIMITER = "\\s+";
-    private static final String PATTERN = "(-*\\d+\\.*\\d*\\s+\\d+\\.*\\d*)\\s+(-*\\d+\\.*\\d*\\s+\\d+\\.*\\d*)\\s+" +
-                                            "(-*\\d+\\.*\\d*\\s+\\d+\\.*\\d*)\\s+(-*\\d+\\.*\\d*\\s+\\d+\\.*\\d*)\\s*\\n*";
+    private static final String PATTERN = "(-*\\d+\\.*\\d*\\s+-*\\d+\\.*\\d*)\\s+(-*\\d+\\.*\\d*\\s+-*\\d+\\.*\\d*)\\s+" +
+            "(-*\\d+\\.*\\d*\\s+-*\\d+\\.*\\d*)\\s+(-*\\d+\\.*\\d*\\s+-*\\d+\\.*\\d*)\\s*\\n*";;
 
     private static Logger logger = LogManager.getLogger();
 
-    public List<Double> parseQuadrangleData(List<String> data){
+    private static DataParser instance;
+
+    private DataParser() {
+    }
+
+    public static DataParser getInstance() {
+        if (instance == null) {
+            instance = new DataParser();
+        }
+        return instance;
+    }
+
+    public List<Double> parseQuadrangleData(List<String> data) {
         Pattern pattern = Pattern.compile(PATTERN);
         Matcher matcher;
         List<Double> result = new ArrayList<>();

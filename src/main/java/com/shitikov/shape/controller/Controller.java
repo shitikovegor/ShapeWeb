@@ -1,7 +1,9 @@
 package com.shitikov.shape.controller;
 
 import com.shitikov.shape.controller.command.Command;
+import com.shitikov.shape.controller.command.PagePath;
 import com.shitikov.shape.controller.command.provider.CommandProvider;
+import com.shitikov.shape.exception.ProjectException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,16 +24,15 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String page = null;
         Command command = CommandProvider.defineCommand(request);
-        page = command.execute(request);
+        String page = command.execute(request);
 
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            page = "/index.jsp";
-            response.sendRedirect(request.getContextPath() + page);
+            request.getSession().setAttribute("nullPage", "Page is null");
+            response.sendRedirect(request.getContextPath() + PagePath.INDEX);
         }
     }
 }

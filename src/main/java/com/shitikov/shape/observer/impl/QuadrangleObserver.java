@@ -4,7 +4,7 @@ import com.shitikov.shape.entity.Quadrangle;
 import com.shitikov.shape.entity.QuadrangleType;
 import com.shitikov.shape.observer.Observer;
 import com.shitikov.shape.observer.QuadrangleEvent;
-import com.shitikov.shape.service.impl.QuadrangleService;
+import com.shitikov.shape.action.impl.QuadrangleAction;
 import com.shitikov.shape.warehouse.QuadrangleProperty;
 import com.shitikov.shape.warehouse.QuadrangleWarehouse;
 import org.apache.logging.log4j.Level;
@@ -17,7 +17,7 @@ public class QuadrangleObserver implements Observer<QuadrangleEvent> {
     @Override
     public void actionPerformed(QuadrangleEvent quadrangleEvent) {
         Quadrangle quadrangle = quadrangleEvent.getSource();
-        QuadrangleService service = new QuadrangleService();
+        QuadrangleAction service = new QuadrangleAction();
 
         double perimeter = service.calculatePerimeter(quadrangle);
         double square = service.calculateSquare(quadrangle);

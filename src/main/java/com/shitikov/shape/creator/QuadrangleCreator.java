@@ -12,34 +12,67 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class QuadrangleCreator {
     private static Logger logger = LogManager.getLogger();
+    private static QuadrangleCreator instance;
 
-    public Quadrangle createQuadrangle(List<Double> pointsData) throws ProjectException {
-        if (pointsData == null || pointsData.isEmpty()
-                || pointsData.size() % 8 != 0) {
+    private QuadrangleCreator() {
+    }
+
+    public static QuadrangleCreator getInstance() {
+        if (instance == null) {
+            instance = new QuadrangleCreator();
+        }
+        return instance;
+    }
+
+    public Optional<Quadrangle> createQuadrangle(List<Double> pointsData) throws ProjectException {
+        if (pointsData == null || pointsData.size() != 8) {
             throw new ProjectException("Parameter is incorrect.");
         }
+
         PointCreator creator = new PointCreator();
         List<Point> points = new ArrayList<>();
         Point point;
+        Optional<Quadrangle> quadrangleOptional;
 
         for (int i = 0; i < pointsData.size() - 1; i += 2) {
             point = creator.createPoint(pointsData.get(i), pointsData.get(i + 1));
             points.add(point);
         }
-        if (!QuadrangleValidator.getInstance().isQuadrangleDataCorrect(points)) {
-            throw new ProjectException("Parameter is incorrect.");
+        if (QuadrangleValidator.getInstance().isQuadrangleDataCorrect(points)) {
+            Quadrangle quadrangle = new Quadrangle(points);
+            QuadrangleRepository.getInstance().add(quadrangle);
+
+            quadrangle.attach(new QuadrangleObserver());
+            quadrangle.notifyObservers();
+            quadrangleOptional = Optional.of(quadrangle);
+            logger.log(Level.INFO, "Quadrangle {} created.", quadrangle);
+        } else {
+            logger.log(Level.ERROR, "Parameter is incorrect.");
+            quadrangleOptional = Optional.empty();
         }
 
-        Quadrangle quadrangle = new Quadrangle(points);
-        QuadrangleRepository.getInstance().add(quadrangle);
+        return quadrangleOptional;
+    }
 
-        quadrangle.attach(new QuadrangleObserver());
-        quadrangle.notifyObservers();
-        logger.log(Level.INFO, "Quadrangle {} created.", quadrangle);
+    public List<Quadrangle> createQuadrangleList(List<Double> pointsData) throws ProjectException {
+        if (pointsData == null || pointsData.isEmpty()
+                || pointsData.size() % 8 != 0) {
+            throw new ProjectException("Parameter is incorrect.");
+        }
+        List<Quadrangle> quadrangles = new ArrayList<>();
+        List<Double> points;
+        for (int i = 0; i < pointsData.size(); i += 8) {
+            points = pointsData.subList(i, i + 8);
+            Optional<Quadrangle> quadrangle = createQuadrangle(points);
 
-        return quadrangle;
+            if (!quadrangle.isEmpty()) {
+                quadrangles.add(quadrangle.get());
+            }
+        }
+        return quadrangles;
     }
 }

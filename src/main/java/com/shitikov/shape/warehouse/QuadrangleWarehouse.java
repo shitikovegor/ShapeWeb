@@ -53,6 +53,14 @@ public class QuadrangleWarehouse {
         return propertyOptional;
     }
 
+//    public QuadrangleProperty getProperty(long id) {
+//        QuadrangleProperty property = null;
+//        if (properties.containsKey(id)) {
+//            property = properties.get(id);
+//        }
+//        return property;
+//    }
+
     public Map<Long, QuadrangleProperty> getProperties() {
         return Collections.unmodifiableMap(properties);
     }

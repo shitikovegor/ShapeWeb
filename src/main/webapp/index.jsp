@@ -3,14 +3,9 @@
 <html>
 <meta charset="UTF-8">
 <head>
-    <title>Upload file</title>
+    <title>Shapes</title>
 </head>
 <body>
-Uploads
-<FORM action="upload" enctype="multipart/form-data" method="POST">
-    Upload File: <INPUT type="file" name="content" height="130">
-    <INPUT type="submit" value="Upload File">
-
-</FORM>
+<jsp:forward page="/jsp/login.jsp"/>
 </body>
 </html>

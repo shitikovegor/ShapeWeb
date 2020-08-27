@@ -4,23 +4,19 @@ import com.shitikov.shape.controller.command.Command;
 import com.shitikov.shape.controller.command.impl.*;
 
 public enum CommandType {
-    SHOW_FILES("show files", new ShowFilesCommand()),
-    READ_FILE("read file", new ReadFileCommand()),
-    EMPTY_COMMAND("empty command", new EmptyCommand());
+    LOGIN(new LoginCommand()),
+    SHOW_FILES(new ShowFilesCommand()),
+    READ_FILE(new ReadFileCommand()),
+    UPLOAD_FILE(new UploadFileCommand()),
+    EMPTY_COMMAND(new EmptyCommand());
 
-    private String name;
     private Command command;
 
-    CommandType(String name, Command command) {
-        this.name = name;
+    CommandType(Command command) {
         this.command = command;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public com.shitikov.shape.controller.command.Command getCommand() {
+    public Command getCommand() {
         return command;
     }
 }
